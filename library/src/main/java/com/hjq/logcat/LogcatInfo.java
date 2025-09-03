@@ -3,6 +3,7 @@ package com.hjq.logcat;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -35,7 +36,7 @@ final class LogcatInfo {
      *
      * 案例：05-19 23:59:18.383
      */
-    private static final String LOG_TIME = "([0-9^-]+-[0-9^ ]+\\s[0-9^:]+:[0-9^:]+\\.[0-9]+)";
+    private static final String LOG_TIME = "([0-9^-]+-[0-9^ ]+\\s[0-9^:]+:[0-9^:]+\\.\\d+)";
 
     /**
      * 应用 id 匹配正则
@@ -49,14 +50,14 @@ final class LogcatInfo {
      *
      * 案例：3177
      */
-    private static final String LOG_PID = "([0-9]+)";
+    private static final String LOG_PID = "(\\d+)";
 
     /**
      * 线程 id 匹配正则
      *
      * 案例：3258
      */
-    private static final String LOG_TID = "([0-9]+)";
+    private static final String LOG_TID = "(\\d+)";
 
     /**
      * 日志等级匹配正则
@@ -85,11 +86,13 @@ final class LogcatInfo {
             LOG_SEPARATOR + LOG_PID + LOG_SEPARATOR + LOG_TID + LOG_SEPARATOR +
             LOG_LEVEL + LOG_SEPARATOR + LOG_TAG + LOG_SEPARATOR + LOG_CONTENT);
 
-    static final ArrayList<String> IGNORED_LOG = new ArrayList<String>() {{
-        add("--------- beginning of crash");
-        add("--------- beginning of main");
-        add("--------- beginning of system");
-    }};
+    static final List<String> IGNORED_LOG = new ArrayList<>();
+
+    static {
+        IGNORED_LOG.add("--------- beginning of crash");
+        IGNORED_LOG.add("--------- beginning of main");
+        IGNORED_LOG.add("--------- beginning of system");
+    }
 
     /** 时间 */
     private String time;
@@ -186,17 +189,13 @@ final class LogcatInfo {
 
     @Override
     public String toString() {
-        return String.format("%s" + SPACE + "%s" + SPACE + "%s", time, tag, content);
+        return time + SPACE + tag + SPACE + content;
     }
 
     public String toString(Context context) {
         if (!LogcatUtils.isPortrait(context)) {
             return toString();
         }
-
-        String log = getContent();
-        return String.format("%s" + LogcatInfo.SPACE + "%s" +
-                (log.startsWith("\n") ? LogcatInfo.SPACE : "\n")
-                + "%s", time, tag, log);
+        return time + SPACE + tag + SPACE + (content.startsWith("\n") ? SPACE : "\n") + content;
     }
 }
