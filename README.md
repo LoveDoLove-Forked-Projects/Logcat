@@ -1,3 +1,5 @@
+# [English Doc](README-en.md)
+
 # 日志查看框架
 
 ![](logo.png)
@@ -6,21 +8,21 @@
 
 * 可以扫码下载 Demo 进行演示或者测试，如果扫码下载不了的，[点击此处可直接下载](https://github.com/getActivity/Logcat/releases/download/12.3/Logcat.apk)
 
-![](picture/demo_code.png)
+![](picture/zh/demo_code.png)
 
-![](picture/logcat_notify_entrance.jpg) ![](picture/logcat_window_entrance.jpg) ![](picture/logcat_activity_landscape.jpg)
+![](picture/zh/logcat_notify_entrance.jpg) ![](picture/zh/logcat_window_entrance.jpg) ![](picture/zh/logcat_activity_landscape.jpg)
 
-![](picture/logcat_activity_portrait.jpg)
+![](picture/zh/logcat_activity_portrait.jpg)
 
-![](picture/logcat_level_select.jpg)
+![](picture/zh/logcat_level_select.jpg)
 
-![](picture/logcat_filter_level.jpg)
+![](picture/zh/logcat_filter_level.jpg)
 
-![](picture/logcat_filter_content.jpg)
+![](picture/zh/logcat_filter_content.jpg)
 
-![](picture/logcat_long_click_menu.jpg)
+![](picture/zh/logcat_long_click_menu.jpg)
 
-![](picture/logcat_system_share.jpg)
+![](picture/zh/logcat_system_share.jpg)
 
 #### 集成步骤
 
@@ -139,6 +141,8 @@ AAPT: error: unexpected element <property> found in <manifest><application><serv
 * 标题栏框架：[TitleBar](https://github.com/getActivity/TitleBar) ![](https://img.shields.io/github/stars/getActivity/TitleBar.svg) ![](https://img.shields.io/github/forks/getActivity/TitleBar.svg)
 
 * 悬浮窗框架：[EasyWindow](https://github.com/getActivity/EasyWindow) ![](https://img.shields.io/github/stars/getActivity/EasyWindow.svg) ![](https://img.shields.io/github/forks/getActivity/EasyWindow.svg)
+
+* 设备兼容框架：[DeviceCompat](https://github.com/getActivity/DeviceCompat) ![](https://img.shields.io/github/stars/getActivity/DeviceCompat.svg) ![](https://img.shields.io/github/forks/getActivity/DeviceCompat.svg)
 
 * ShapeView 框架：[ShapeView](https://github.com/getActivity/ShapeView) ![](https://img.shields.io/github/stars/getActivity/ShapeView.svg) ![](https://img.shields.io/github/forks/getActivity/ShapeView.svg)
 

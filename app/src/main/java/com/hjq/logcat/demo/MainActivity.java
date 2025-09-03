@@ -47,7 +47,7 @@ public final class MainActivity extends AppCompatActivity implements OnTitleBarL
         mTitleBar.setOnTitleBarListener(this);
 
         if (NotificationManagerCompat.from(this).areNotificationsEnabled()) {
-            Toaster.show("请点击通知栏入口进入日志查看页面");
+            Toaster.show(getString(R.string.notification_hint));
         }
     }
 
@@ -56,14 +56,14 @@ public final class MainActivity extends AppCompatActivity implements OnTitleBarL
         String logTag = mTagView.getText().toString();
         String logContent = mContentView.getText().toString();
         if (TextUtils.isEmpty(logTag)) {
-            Toaster.show("要打印的日志 TAG 不能为空");
+            Toaster.show(getString(R.string.log_tag_empty_hint));
             return;
         }
         if (TextUtils.isEmpty(logContent)) {
-            Toaster.show("要打印的日志内容不能为空");
+            Toaster.show(getString(R.string.log_content_empty_hint));
             return;
         }
-        String logSuccessHint = "打印成功，请点击右边的《机器人》查看日志";
+        String logSuccessHint = getString(R.string.log_success_hint);
         if (v == mLogDebugView) {
             Log.d(logTag, logContent);
             Toaster.show(logSuccessHint);

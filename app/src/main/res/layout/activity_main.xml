@@ -37,14 +37,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="日志 TAG：" />
+                        android:text="@string/log_tag_label" />
 
                     <EditText
                         android:id="@+id/et_main_input_log_tag"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:hint="请输入日志的 TAG"
-                        android:text="MainActivity" />
+                        android:hint="@string/log_tag_hint"
+                        android:text="@string/log_tag_default" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -55,14 +55,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="日志内容：" />
+                        android:text="@string/log_content_label" />
 
                     <EditText
                         android:id="@+id/et_main_input_log_content"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:hint="请输入日志的内容"
-                        android:text="我是日志的内容" />
+                        android:hint="@string/log_content_hint"
+                        android:text="@string/log_content_default" />
                 </LinearLayout>
 
                 <Button
@@ -70,21 +70,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:text="调用 Log.d 打印日志" />
+                    android:text="@string/print_log_debug" />
 
                 <Button
                     android:id="@+id/btn_main_print_log_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="调用 Log.i 打印日志" />
+                    android:text="@string/print_log_info" />
 
                 <Button
                     android:id="@+id/btn_main_print_log_warn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="调用 Log.w 打印日志" />
+                    android:text="@string/print_log_warn" />
 
                 <Button
                     android:id="@+id/btn_main_print_log_error"
@@ -92,7 +92,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="20dp"
-                    android:text="调用 Log.e 打印日志" />
+                    android:text="@string/print_log_error" />
 
             </LinearLayout>
 

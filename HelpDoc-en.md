@@ -1,58 +1,53 @@
-# 目录
+# Table of Contents
 
-* [Logcat 入口配置](#logcat-入口配置)
+* [Logcat Entry Configuration](#logcat-entry-configuration)
 
-* [Logcat Activity 方向配置](#logcat-activity-方向配置)
+* [Logcat Activity Orientation Configuration](#logcat-activity-orientation-configuration)
 
-* [设置 Logcat 显示的日志颜色](#设置-logcat-显示的日志颜色)
+* [Set Logcat Log Display Colors](#set-logcat-log-display-colors)
 
-* [设置 Logcat 默认筛选条件](#设置-logcat-默认筛选条件)
+* [Set Logcat Default Filter Conditions](#set-logcat-default-filter-conditions)
 
-* [设置 Logcat 日志过滤规则](#设置-logcat-日志过滤规则)
+* [Set Logcat Log Filter Rules](#set-logcat-log-filter-rules)
 
-* [设置显示所有应用打印的日志](#设置显示所有应用打印的日志)
+* [Show All Application Printed Logs](#show-all-application-printed-logs)
 
-* [我如果要在线上使用这个库该怎么办](#我如果要在线上使用这个库该怎么办)
+* [How to Use This Library in Production](#how-to-use-this-library-in-production)
 
-* [在多进程情况下无法展示入口怎么办](#在多进程情况下无法展示入口怎么办)
+* [What to Do If the Entry Cannot Be Displayed in Multi-Process Situations](#what-to-do-if-the-entry-cannot-be-displayed-in-multi-process-situations)
 
-* [相同的 TAG 日志会自动合并打印怎么关闭](#相同的-tag-日志会自动合并打印怎么关闭)
+* [How to Disable Automatic Merging of Logs with the Same TAG](#how-to-disable-automatic-merging-of-logs-with-the-same-tag)
 
-#### Logcat 入口配置
+#### Logcat Entry Configuration
 
-* 框架默认提供了两种入口
+* The framework provides two default entry points:
 
-    * 通知栏入口
+    * Notification bar entry
 
-    * 悬浮窗入口
+    * Floating window entry
 
-* 入口默认的规则：在有通知栏权限的情况下，会优先使用通知栏入口，否则则会显示悬浮窗入口
+* The default rule for the entry: If the notification bar permission is granted, the notification bar entry will be used first; otherwise, the floating window entry will be displayed.
 
-* 如何修改默认的规则？可在清单文件中加入以下配置即可
+* How to modify the default rule? You can add the following configuration in the manifest file:
 
 ```xml
 <manifest>
-
     <application>
-
-        <!-- 悬浮窗入口 -->
+        <!-- Floating window entry -->
         <meta-data
             android:name="LogcatWindowEntrance"
             android:value="false" />
-
-        <!-- 通知栏入口 -->
+        <!-- Notification bar entry -->
         <meta-data
             android:name="LogcatNotifyEntrance"
             android:value="true" />
-
     </application>
-
 </manifest>
 ```
 
-#### Logcat Activity 方向配置
+#### Logcat Activity Orientation Configuration
 
-* `LogcatActivity` 默认是跟随手机屏幕方向的，如果你需要固定竖屏方向，那么需要在你的清单文件中加入此配置：
+* `LogcatActivity` follows the device screen orientation by default. If you need to fix it to portrait orientation, add the following configuration in your manifest file:
 
 ```xml
 <activity
@@ -64,9 +59,9 @@
     tools:node="replace" />
 ```
 
-#### 设置 Logcat 显示的日志颜色
+#### Set Logcat Log Display Colors
 
-* 在项目的 `values/color.xml` 中加入你喜欢的配色，例如：
+* Add your preferred color configuration in the project's `values/color.xml`, for example:
 
 ```xml
 <color name="logcat_level_verbose_color">#FFBBBBBB</color>
@@ -77,33 +72,28 @@
 <color name="logcat_level_other_color">#FFFFFFFF</color>
 ```
 
-#### 设置 Logcat 默认筛选条件
+#### Set Logcat Default Filter Conditions
 
-* 如果要修改框架默认筛选条件，只需在清单文件中加入以下配置即可
+* To modify the framework's default filter conditions, just add the following configuration in the manifest file:
 
 ```xml
 <manifest>
-
     <application>
-
-        <!-- 默认搜索关键字 -->
+        <!-- Default search keyword -->
         <meta-data
             android:name="LogcatDefaultSearchKey"
             android:value="MainActivity" />
-
-        <!-- 默认日志等级 -->
+        <!-- Default log level -->
         <meta-data
             android:name="LogcatDefaultLogLevel"
             android:value="E" />
-
     </application>
-
 </manifest>
 ```
 
-#### 设置 Logcat 日志过滤规则
+#### Set Logcat Log Filter Rules
 
-* 在项目的 `values/string.xml` 中加入你要过滤的日志 TAG，例如：
+* Add the log TAGs you want to filter in the project's `values/string.xml`, for example:
 
 ```xml
 <string-array name="logcat_filter_list" tools:ignore="ExtraTranslation">
@@ -188,54 +178,54 @@
 </string-array>
 ```
 
-#### 设置显示所有应用打印的日志
+#### Show All Application Printed Logs
 
-* 首先有一点，App 本身是无法获取其他 App 日志的
+* First, note that an app itself cannot obtain logs from other apps.
 
-* 如果你有这个需要，也不是不能实现，在电脑端输入以下 adb 命令
+* If you need this, it can be achieved by entering the following adb command on your computer:
 
 ```text
-// 给指定的应用授予读取 Log 的权限，com.hjq.logcat.demo 需要改成你的包名
+// Grant the specified app permission to read logs. Replace com.hjq.logcat.demo with your package name.
 adb shell pm grant com.hjq.logcat.demo android.permission.READ_LOGS
 ```
 
-* 重启应用即可生效（有的手机会自动杀死进程），授权过后除非应用被卸载，否则不会消失
+* Restart the app for it to take effect (some phones may automatically kill the process). Once authorized, the permission will remain unless the app is uninstalled.
 
-* 如果执行上面的命令失败了，并且提示以下信息
-  
+* If the above command fails and you see the following message:
+
 ```text
 Exception occurred while executing 'grant':
 java.lang.SecurityException: grantRuntimePermission: 
     Neither user 2000 nor current process has android.permission.GRANT_RUNTIME_PERMISSIONS.
 ```
 
-* 则需要前往开发者选项中开启 `USB 调试（安全设置）` 的设置选项
+* Then you need to enable the `USB debugging (Security settings)` option in Developer Options.
 
-![](picture/zh/usb_debugging_security_setting.jpg)
+![](picture/en/usb_debugging_security_setting.jpg)
 
-* 开启之后，如果还是一样的提示，证明没有生效，可以尝试以下操作
+* If you still get the same message after enabling, try the following:
 
-   * 等待 5 分钟
+    * Wait 5 minutes
+    
+    * Replug your phone
 
-   * 重新拔插一下手机
+    * Check if `USB Installation` is enabled
 
-   * 检查 `USB 安装` 选项有没有开启
+    * Re-enable `USB Debugging (Security)`
 
-   * 重新打开 `USB 调试（安全）`选项
+    * Restart the cmd terminal
 
-   * 重启一下 cmd 命令行终端
+    * Restart your phone and try again
 
-   * 重启一下手机再试
+    * Try another phone
 
-   * 换一台手机再试
+* The author recommends not enabling this feature unless necessary, as it will increase the amount and complexity of logs displayed by Logcat, making searching more difficult.
 
-* 作者建议如果没有这个需求，则不需要开启此项功能，因为这样会导致 Logcat 显示的日志变多，会增加日志的复杂度和查找的难度
+#### How to Use This Library in Production
 
-#### 我如果要在线上使用这个库该怎么办
+* It is highly discouraged to use this library in production, as it is designed for debugging purposes. The author cannot guarantee its behavior in production. However, if you must do so, follow these steps:
 
-* 首先我是十分不推荐在线上使用这个库，因为这个库的定位是为了方便调试使用，我也不敢保证这个库在线上使用会有什么问题，当然你如果要一定这样做，也不是没有办法，具体步骤如下：
-
-* 第一步：将依赖方式从 `debugImplementation` 修改成 `implementation`
+* Step 1: Change the dependency from `debugImplementation` to `implementation`:
 
 ```groovy
 dependencies {
@@ -249,29 +239,24 @@ dependencies {
 }
 ```
 
-* 第二步：隐藏 Logcat 入口展示
+* Step 2: Hide the Logcat entry points:
 
 ```xml
 <manifest>
-
     <application>
-
-        <!-- 悬浮窗入口 -->
+        <!-- Floating window entry -->
         <meta-data
             android:name="LogcatWindowEntrance"
             android:value="false" />
-
-        <!-- 通知栏入口 -->
+        <!-- Notification bar entry -->
         <meta-data
             android:name="LogcatNotifyEntrance"
             android:value="false" />
-
     </application>
-
 </manifest>
 ```
 
-* 第三步：在合适的时机调起 Logcat
+* Step 3: Manually launch Logcat at the appropriate time:
 
 ```java
 try {
@@ -282,40 +267,34 @@ try {
 }
 ```
 
-#### 在多进程情况下无法展示入口怎么办
+#### What to Do If the Entry Cannot Be Displayed in Multi-Process Situations
 
-* 这个问题其实之前就有人提出过 [Logcat/issues/35](https://github.com/getActivity/Logcat/issues/35)，但是经过核实是无法修复的，这是因为在开启子进程的情况下，会二次创建 Application 对象，然后重新走一遍 onCreate 方法，但是 ContentProvider 组件就不一样了，并不会重复创建，这就导致一个问题，Logcat 这个框架本身就依赖 ContentProvider 作为框架的初始化入口，但是它在子进程并不会被系统二次创建，更别说调用了，这个属于硬伤。
+* This issue has been raised before [Logcat/issues/35](https://github.com/getActivity/Logcat/issues/35), but after verification, it cannot be fixed. This is because when a subprocess is started, the Application object is created again and the onCreate method is called again. However, the ContentProvider component is different and will not be created again, which causes a problem. The Logcat framework relies on ContentProvider as the initialization entry, but it will not be created again in the subprocess, nor will it be called. This is a fundamental limitation.
 
-* 当然不代表这就没有解决手段，你可以手动初始化 Logcat 框架来解决这一问题，具体方式如下：
+* However, there is a workaround: you can manually initialize the Logcat framework as follows:
 
-* 第一步：先在清单文件中去除 Logcat 框架初始化入口
+* Step 1: Remove the Logcat framework initialization entry from the manifest file:
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.xxx.xxx">
-
     <application>
-
         <provider
             android:name="com.hjq.logcat.LogcatProvider"
             tools:node="remove" />
-
     </application>
-
 </manifest>
 ```
 
-* 第二步：在 Application.onCreate 方法中手动初始化 Logcat 框架
+* Step 2: Manually initialize the Logcat framework in Application.onCreate:
 
 ```java
 public final class XxxApplication extends Application {
-
    @Override
    public void onCreate() {
       super.onCreate();
-
        try {
            Class<?> logcatProviderClass = Class.forName("com.hjq.logcat.LogcatProvider");
            Object logcatProvider = logcatProviderClass.newInstance();
@@ -329,21 +308,17 @@ public final class XxxApplication extends Application {
 }
 ```
 
-#### 相同的 TAG 日志会自动合并打印怎么关闭
+#### How to Disable Automatic Merging of Logs with the Same TAG
 
-* 当发现有两个及以上相同的 TAG 的日志，且过程中没有插入新 TAG 的日志，为了日志显示的美观，框架会自动进行合并打印，你如果不需要该功能，在清单文件中加入以下配置即可：
+* When two or more logs with the same TAG are found, and no new TAG logs are inserted in between, the framework will automatically merge them for better display. If you do not need this feature, add the following configuration in the manifest file:
 
 ```xml
 <manifest>
-
     <application>
-
-        <!-- 日志合并打印（默认开启） -->
+        <!-- Log merging (enabled by default) -->
         <meta-data
             android:name="LogcatAutoMergePrint"
             android:value="false" />
-
     </application>
-
 </manifest>
 ```

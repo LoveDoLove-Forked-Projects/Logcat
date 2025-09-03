@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Logcat</string>
+
+    <string name="log_tag_label">日志 TAG：</string>
+    <string name="log_tag_hint">请输入日志的 TAG</string>
+    <string name="log_tag_default">MainActivity</string>
+    <string name="log_content_label">日志内容：</string>
+    <string name="log_content_hint">请输入日志的内容</string>
+    <string name="log_content_default">我是日志的内容</string>
+    <string name="print_log_debug">调用 Log.d 打印日志</string>
+    <string name="print_log_info">调用 Log.i 打印日志</string>
+    <string name="print_log_warn">调用 Log.w 打印日志</string>
+    <string name="print_log_error">调用 Log.e 打印日志</string>
+    <string name="log_tag_empty_hint">要打印的日志 TAG 不能为空</string>
+    <string name="log_content_empty_hint">要打印的日志内容不能为空</string>
+    <string name="log_success_hint">打印成功，请点击右边的《机器人》查看日志</string>
+    <string name="notification_hint">请点击通知栏入口进入日志查看页面</string>
+</resources>
