@@ -6,7 +6,7 @@
 
 * Project address: [Github](https://github.com/getActivity/Logcat)
 
-* [Click here to download demo apk directly](https://github.com/getActivity/Logcat/releases/download/12.3/Logcat.apk)
+* [Click here to download demo apk directly](https://github.com/getActivity/Logcat/releases/download/12.5/Logcat.apk)
 
 ![](picture/en/logcat_notify_entrance.jpg) ![](picture/en/logcat_window_entrance.jpg) ![](picture/en/logcat_activity_landscape.jpg)
 
@@ -59,7 +59,7 @@ android {
 
 dependencies {
     // Log debugging framework: https://github.com/getActivity/Logcat
-    debugImplementation 'com.github.getActivity:Logcat:12.3'
+    debugImplementation 'com.github.getActivity:Logcat:12.5'
 }
 ```
 
