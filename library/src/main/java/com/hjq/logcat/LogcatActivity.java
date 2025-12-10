@@ -186,7 +186,7 @@ public final class LogcatActivity extends AppCompatActivity
         }
 
         // 这个 Tag 必须不在过滤列表中
-        if (mTagFilter.contains(info.getTag())) {
+        if (mTagFilter.contains(info.getTag().trim())) {
             return;
         }
 
