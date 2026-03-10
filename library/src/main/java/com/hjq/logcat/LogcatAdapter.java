@@ -42,7 +42,7 @@ final class LogcatAdapter extends RecyclerView.Adapter<LogcatAdapter.ViewHolder>
     private static final int LOG_REMOVE_COUNT = LOG_MAX_COUNT / 3;
 
     /** 报错代码行数正则表达式 */
-    private static final Pattern CODE_LINES_REGEX = Pattern.compile("\\(\\w+\\.\\w+:\\d+\\)");
+    private static final Pattern CODE_LINES_REGEX = Pattern.compile("\\([\\w.$-]+:\\d+\\)");
 
     /** 链接正则表达式 */
     private static final Pattern LINK_REGEX = Pattern.compile("https?://[^\\x{4e00}-\\x{9fa5}\\n\\r\\s]{3,}");
