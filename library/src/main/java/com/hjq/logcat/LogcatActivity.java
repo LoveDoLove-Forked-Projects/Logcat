@@ -446,7 +446,7 @@ public final class LogcatActivity extends AppCompatActivity
 
             // 从列表中删除关于这个 Tag 的日志
             List<LogcatInfo> data = mAdapter.getShowData();
-            for (int i = 0; i < data.size(); i++) {
+            for (int i = data.size() - 1; i >= 0; i--) {
                 LogcatInfo info = data.get(i);
                 if (info.getTag().equals(tag)) {
                     mAdapter.removeItem(i);
