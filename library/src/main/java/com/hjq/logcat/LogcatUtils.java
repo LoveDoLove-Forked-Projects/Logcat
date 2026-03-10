@@ -92,6 +92,9 @@ final class LogcatUtils {
     static int getStatusBarHeight(Context context) {
         Resources resources = context.getResources();
         int resourceId = resources.getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId == 0) {
+            return 0;
+        }
         return resources.getDimensionPixelSize(resourceId);
     }
 
@@ -167,14 +170,12 @@ final class LogcatUtils {
         if (!file.exists()) {
             file.createNewFile();
         }
-        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, false), CHARSET_UTF_8));
-        for (LogcatInfo info : data) {
-            writer.write(info.toString().replace("\n", "\r\n") + "\r\n\r\n");
+        try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, false), CHARSET_UTF_8))) {
+            for (LogcatInfo info : data) {
+                writer.write(info.toString().replace("\n", "\r\n") + "\r\n\r\n");
+            }
+            writer.flush();
         }
-        writer.flush();
-        try {
-            writer.close();
-        } catch (IOException ignored) {}
         return file;
     }
 
@@ -188,21 +189,17 @@ final class LogcatUtils {
             return tagFilter;
         }
 
-        BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), CHARSET_UTF_8));
-        String tag;
-        while ((tag = reader.readLine()) != null) {
-            if (tag.isEmpty()) {
-                continue;
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), CHARSET_UTF_8))) {
+            String tag;
+            while ((tag = reader.readLine()) != null) {
+                if (tag.isEmpty()) {
+                    continue;
+                }
+                if (tagFilter.contains(tag)) {
+                    continue;
+                }
+                tagFilter.add(tag);
             }
-            if (tagFilter.contains(tag)) {
-                continue;
-            }
-            tagFilter.add(tag);
-        }
-        try {
-            reader.close();
-        } catch (IOException ignored) {
-            // default implementation ignored
         }
 
         return tagFilter;
@@ -223,15 +220,12 @@ final class LogcatUtils {
         if (!file.exists()) {
             file.createNewFile();
         }
-        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, false), CHARSET_UTF_8));
-        for (String temp : tagFilter) {
-            writer.write(temp + "\r\n");
+        try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, false), CHARSET_UTF_8))) {
+            for (String temp : tagFilter) {
+                writer.write(temp + "\r\n");
+            }
+            writer.flush();
         }
-        writer.flush();
-
-        try {
-            writer.close();
-        } catch (IOException ignored) {}
 
         return file;
     }
