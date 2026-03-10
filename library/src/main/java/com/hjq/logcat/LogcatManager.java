@@ -5,10 +5,10 @@ import java.io.BufferedReader;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  *    author : Android 轮子哥
@@ -26,8 +26,10 @@ final class LogcatManager {
     private static volatile boolean sCanObtainUid;
     /** 日志捕捉标记 */
     private static volatile boolean FLAG_WORK;
+    /** 日志进程对象 */
+    private static volatile java.lang.Process sProcess;
     /** 备用存放集合 */
-    private static final List<LogcatInfo> LOG_BACKUP = new ArrayList<>();
+    private static final List<LogcatInfo> LOG_BACKUP = new CopyOnWriteArrayList<>();
     /** Log 哈希存放集合 */
     private static final Set<String> LOG_HASH = new HashSet<>();
 
@@ -78,6 +80,13 @@ final class LogcatManager {
         FLAG_WORK = false;
         // 把监听对象置空，不然会导致内存泄漏
         sCallback = null;
+        java.lang.Process process = sProcess;
+        sProcess = null;
+        if (process != null) {
+            try {
+                process.destroy();
+            } catch (Exception ignored) {}
+        }
     }
 
     /**
@@ -102,8 +111,8 @@ final class LogcatManager {
         // 还有在手机上面执行 logcat -v uid 获取日志，在 Android 10 及以下机子 uid 会为空格（一般为四个空格，还不算前后两个空格）
         // 多种日志格式拼接：logcat -v format, --format='threadtime uid usec color' -d
         String command = "logcat -v " + (sCanObtainUid ? "uid" : "threadtime");
-        java.lang.Process process = Runtime.getRuntime().exec(command);
-        return new BufferedReader(new InputStreamReader(process.getInputStream()));
+        sProcess = Runtime.getRuntime().exec(command);
+        return new BufferedReader(new InputStreamReader(sProcess.getInputStream()));
     }
 
     /**
@@ -125,10 +134,9 @@ final class LogcatManager {
         @Override
         public void run() {
             BufferedReader reader = null;
-
-            String line;
-            while (true) {
-                synchronized (LogcatManager.class) {
+            try {
+                String line;
+                while (true) {
                     if (reader == null) {
                         try {
                             reader = createLogcatBufferedReader();
@@ -141,7 +149,6 @@ final class LogcatManager {
                         line = reader.readLine();
                     } catch (IOException e) {
                         e.printStackTrace();
-                        closeStream(reader);
                         break;
                     }
                     if (line == null) {
@@ -152,6 +159,12 @@ final class LogcatManager {
                         // 同样的 Android 12 手机，我用小米 12 就没有出现这种情况，所以大家要怪只能怪厂商了
                         closeStream(reader);
                         reader = null;
+                        if (sProcess != null) {
+                            try {
+                                sProcess.destroy();
+                            } catch (Exception ignored) {}
+                            sProcess = null;
+                        }
                         SystemClock.sleep(5000);
                         continue;
                     }
@@ -170,6 +183,9 @@ final class LogcatManager {
                         continue;
                     }
                     LOG_HASH.add(md5);
+                    if (LOG_HASH.size() > 20000) {
+                        LOG_HASH.clear();
+                    }
 
                     LogcatInfo info = LogcatInfo.create(line, sCanObtainUid);
                     if (info == null) {
@@ -183,9 +199,17 @@ final class LogcatManager {
 
                     final Callback callback = sCallback;
                     if (callback == null) {
-                        return;
+                        break;
                     }
                     callback.onReceiveLog(info);
+                }
+            } finally {
+                closeStream(reader);
+                if (sProcess != null) {
+                    try {
+                        sProcess.destroy();
+                    } catch (Exception ignored) {}
+                    sProcess = null;
                 }
             }
         }
