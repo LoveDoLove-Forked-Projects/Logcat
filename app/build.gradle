@@ -58,7 +58,7 @@ dependencies {
     implementation 'com.github.getActivity:TitleBar:10.8'
 
     // 吐司框架：https://github.com/getActivity/Toaster
-    implementation 'com.github.getActivity:Toaster:12.6'
+    implementation 'com.github.getActivity:Toaster:13.8'
 
     // 内存泄漏捕捉：https://github.com/square/leakcanary
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.12'
