@@ -12,9 +12,9 @@ import android.os.Build;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.v4.app.NotificationManagerCompat;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
+import androidx.core.app.NotificationManagerCompat;
 
 /**
  *    author : Android 轮子哥

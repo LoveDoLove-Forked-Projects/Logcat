@@ -3,8 +3,8 @@ package com.hjq.logcat;
 import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.util.TypedValue;
+import androidx.annotation.NonNull;
 
 /**
  *    author : Android 轮子哥
